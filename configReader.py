@@ -1,4 +1,6 @@
-import json, os
+import json
+import os
+
 if os.path.exists(os.getcwd()+'/config.json'):
     with open('config.json') as json_file:
         data = json.load(json_file)
