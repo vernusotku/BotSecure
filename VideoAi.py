@@ -1,3 +1,4 @@
+import os
 import time
 
 from imutils.video import VideoStream,FPS
@@ -48,9 +49,12 @@ def start(message, bot: TeleBot):
                 (startX, startY,endX,endY) = box.astype('int')
                 label = '{}: {:.2f}%'.format(CLASSES[idx],confidence*100)
 
-                HumanNear = False
                 if CLASSES[idx] =='person':
-                    HumanNear = True
+                    cv2.imwrite('face_detection.img', frame)
+                    img = open('face_detection.img', 'rb')
+                    bot.send_photo(chat_id=message.chat.id, photo=img)
+                    img.close
+                    os.remove('face_detection.img')
 
                 cv2.rectangle(frame,(startX,startY),(endX,endY),COLORS[idx],2)
                 y = startY - 15 if startY -15 >15 else startY
